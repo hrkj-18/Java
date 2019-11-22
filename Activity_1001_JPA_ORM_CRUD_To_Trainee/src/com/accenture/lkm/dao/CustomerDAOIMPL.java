@@ -42,14 +42,7 @@ public class CustomerDAOIMPL implements CustomerDAO {
 
 			customerID = customerEntity.getCustomerId();
 
-			addCustomerTransaction.commit();
-
-			// Close the Manager and Manager Factory
-			entityManager.close();
-			customerManagerFactory.close();
-			
-			
-			
+			addCustomerTransaction.commit();			
 		} catch (Exception exception) {
 
 			throw exception;
@@ -111,6 +104,7 @@ public class CustomerDAOIMPL implements CustomerDAO {
 				customerRet.setCustomerName(customerEntity.getCustomerName());
 				customerRet.setPurchaseDate(customerRet.getPurchaseDate());
 			}
+			
 
 		} catch (Exception exception) {
 
@@ -118,7 +112,9 @@ public class CustomerDAOIMPL implements CustomerDAO {
 		} finally {
 			if (entityManager != null) {
 				entityManager.close();
+				
 			}
+			
 		}
 
 		return customerRet;
@@ -137,19 +133,20 @@ public class CustomerDAOIMPL implements CustomerDAO {
 			
 			if(customerEntity != null) {
 
+
+				
+				customerRet.setBill(customerEntity.getBill());
+				customerRet.setCustomerId(customerEntity.getCustomerId());
+				customerRet.setCustomerName(customerEntity.getCustomerName());
+				customerRet.setPurchaseDate(customerEntity.getPurchaseDate());
+				
 				EntityTransaction deleteCustomerTransaction = entityManager.getTransaction();
 
 				deleteCustomerTransaction.begin();
-
-				entityManager.remove(customerEntity);
-
+				entityManager.remove(customerEntity);	
 				deleteCustomerTransaction.commit();
-				System.out.println("-------------");
+				
 			}
-
-			// Close the Manager and Manager Factory
-			entityManager.close();
-			entityManagerFactory.close();
 			
 			
 		} catch (Exception exception) {
@@ -168,31 +165,30 @@ public class CustomerDAOIMPL implements CustomerDAO {
 	public List<CustomerBean> getCustomersWithinDateRange(Date lowerBound,Date upperBound) throws Exception{
 		List<CustomerBean> listCustomer = null;
 		EntityManager entityManager = null;
-//		try {
-//			
-//			
-//			EntityManagerFactory customerManagerFactory = Persistence.createEntityManagerFactory("unit1");
-//			entityManager = customerManagerFactory.createEntityManager(); // CRUD ops
-//			
-//			// Simple Select Query
-//			String selectQueryString = "select ";
-//			Query selectQuery = studentManager.createQuery(selectQueryString);
-//
-//			// List of StudentEntity type
-//			List<StudentEntity> studentList = (List<StudentEntity>) selectQuery.getResultList();
-//
-//			for (StudentEntity student : studentList) {
-//				System.out.println(student);
-//			}
-//			
-//			entityManager.close();
-//			customerManagerFactory.close();
-//			
-//		} catch (Exception exception) {
-//
-//			throw exception;
-//		} finally {
-//			if (entityManager != null) {
+		try {
+			
+			EntityManagerFactory entityManagerFactory = JPAUtility.getEntityManagerFactory();
+			entityManager = entityManagerFactory.createEntityManager();	
+			
+			// Simple Select Query
+			String getCustomersWithinDateRangeString = "select c from CustomerEntity c where c.purchaseDate BETWEEN ?1 AND ?2";
+			Query getCustomersWithinDateRange = entityManager.createQuery(getCustomersWithinDateRangeString);
+			
+			getCustomersWithinDateRange.setParameter(1, lowerBound);
+			getCustomersWithinDateRange.setParameter(2, upperBound);
+			
+			EntityTransaction getCustomersWithinDateRangeTransaction = entityManager.getTransaction();
+			getCustomersWithinDateRangeTransaction.begin();		
+			int n = getCustomersWithinDateRange.executeUpdate();
+			getCustomersWithinDateRangeTransaction.commit();
+			
+			for () {}
+			
+		} catch (Exception exception) {
+
+			throw exception;
+		} finally {
+			if (entityManager != null) {
 //				entityManager.close();
 //			}
 //		}
@@ -204,30 +200,32 @@ public class CustomerDAOIMPL implements CustomerDAO {
 	public Integer updateCustomerBillByName(String name,Double bill) throws Exception{
 		Integer ret = null;
 		EntityManager entityManager = null;
-//		try {
-//
-//			EntityManagerFactory customerManagerFactory = Persistence.createEntityManagerFactory("unit1");
-//			entityManager = customerManagerFactory.createEntityManager(); // CRUD ops
-//			
-//			String updateCustomerBillByNameString = "update Customer c set c.bill = bill where c.name = name";
-//			Query updateCustomerBillByName = entityManager.createQuery(updateCustomerBillByNameString);
-//			
-//			EntityTransaction updateCustomerBillByNameTransaction = entityManager.getTransaction();
-//			updateCustomerBillByNameTransaction.begin();		
-//			updateCustomerBillByName.executeUpdate();
-//			updateCustomerBillByNameTransaction.commit();
-//			
-//			entityManager.close();
-//			customerManagerFactory.close();
-//		
-//		} catch (Exception exception) {
-//
-//			throw exception;
-//		} finally {
-//			if (entityManager != null) {
-//				entityManager.close();
-//			}
-//		}
+		try {
+
+			EntityManagerFactory customerManagerFactory = Persistence.createEntityManagerFactory("unit1");
+			entityManager = customerManagerFactory.createEntityManager(); // CRUD ops
+			
+			
+			String updateCustomerBillByNameString = "update CustomerEntity c set c.bill = ?1 where c.customerName = ?2";
+			Query updateCustomerBillByName = entityManager.createQuery(updateCustomerBillByNameString);
+			
+			updateCustomerBillByName.setParameter(1, bill);
+			updateCustomerBillByName.setParameter(2, name);
+			
+			EntityTransaction updateCustomerBillByNameTransaction = entityManager.getTransaction();
+			updateCustomerBillByNameTransaction.begin();		
+			ret = updateCustomerBillByName.executeUpdate();
+			updateCustomerBillByNameTransaction.commit();
+			
+		
+		} catch (Exception exception) {
+
+			throw exception;
+		} finally {
+			if (entityManager != null) {
+				entityManager.close();
+			}
+		}
 
 		return ret;
 	}

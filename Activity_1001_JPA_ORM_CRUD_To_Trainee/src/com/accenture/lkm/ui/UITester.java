@@ -16,7 +16,7 @@ public class UITester {
 			
 			//addCustomer();
 			//findCustomerById();
-			deleteEmployeeById();
+			//deleteEmployeeById();
 			//updateCustomerBillById();
 			//updateCustomerBillByName("James", 343.4);
 			
@@ -31,6 +31,7 @@ public class UITester {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			JPAUtility.closeEntityManagerFactory();
 		}
@@ -48,15 +49,17 @@ public class UITester {
 			System.out.println("Customer Registered Successfully: " + id);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	static public void findCustomerById(){
 		CustomerService customerService = Factory.createCustomerService();
 		try {
-			CustomerBean cust = customerService.findCustomerById(1004);
+			CustomerBean cust = customerService.findCustomerById(1003);
 			System.out.println("CustomerName: "+cust.getCustomerName());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -70,6 +73,7 @@ public class UITester {
 			System.out.println("Customer: ["+ret.getCustomerId()+"] Bill updated to: "+ret.getBill());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -80,6 +84,7 @@ public class UITester {
 			System.out.println("Customer Deleted successfully!!: "+cust.getCustomerName());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -93,6 +98,7 @@ public class UITester {
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -103,6 +109,7 @@ public class UITester {
 			System.out.println("Number of Rows Updated Successfully are:"+ret);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }
