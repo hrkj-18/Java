@@ -1,5 +1,9 @@
 package com.acc.dao;
 
-public interface EmployeeDao {
+import com.acc.bean.EmployeeBean;
 
+public interface EmployeeDao {
+	public int addEmployee(EmployeeBean employeeBean);
+
+	public int deleteEmployee();
 }

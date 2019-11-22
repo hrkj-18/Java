@@ -2,12 +2,15 @@ package com.acc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity // JPA Mandatory
 public class EmployeeEntity {
 
 	@Id // PK
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column // Will create column with same name as the variable name
 	private int id;
 	@Column
@@ -17,6 +20,12 @@ public class EmployeeEntity {
 
 	public EmployeeEntity() {
 
+	}
+
+	public EmployeeEntity(String name, String location) {
+		super();
+		this.name = name;
+		this.location = location;
 	}
 
 	public EmployeeEntity(int id, String name, String location) {

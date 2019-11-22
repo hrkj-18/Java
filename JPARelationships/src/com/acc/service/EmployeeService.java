@@ -1,8 +1,10 @@
 package com.acc.service;
 
+import com.acc.bean.EmployeeBean;
+
 public interface EmployeeService {
-	
-	public void addEmployee();
-	
-	public void deleteEmployee();
+
+	public int addEmployee(EmployeeBean employeeBean);
+
+	public int deleteEmployee();
 }

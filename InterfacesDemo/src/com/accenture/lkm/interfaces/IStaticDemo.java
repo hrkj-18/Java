@@ -6,9 +6,10 @@ interface IStatic {
 	}
 }
 
-class IStaticImpl implements IStatic {/*
-										 * static void funTwo() { System.out.println("This is static method 2"); }
-										 */
+class IStaticImpl implements IStatic {
+	/*
+	 * static void funTwo() { System.out.println("This is static method 2"); }
+	 */
 }
 
 public class IStaticDemo {
